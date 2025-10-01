@@ -1,0 +1,16 @@
+﻿name: entsoe-datafetch
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - numpy
+  - pandas
+  - requests
+  - openpyxl
+  - jupyterlab
+  - notebook
+  - ipykernel
+  - pip:
+      - entsoe-py>=0.5.10
