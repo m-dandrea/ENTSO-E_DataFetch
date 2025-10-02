@@ -45,29 +45,25 @@ This repository hosts the Jupyter notebook `ENTSO-E_data_retrieve.ipynb`, which 
 
 ## Usage
 
-1. Launch Jupyter from the activated environment:
-   ```
-   jupyter lab ENTSO-E_data_retrieve.ipynb
-   ```
-   or open the notebook via the classic interface with `jupyter notebook`.
+1. Launch Jupyter from the activated environment by running Jupyter Lab with the notebook path (for example, "jupyter lab ENTSO-E_data_retrieve.ipynb"). You can also open the notebook through the classic interface by starting Jupyter Notebook and navigating to the file.
 2. Execute the notebook cells in order. Each section is independent, so you can re-run only the parts you need:
-   - **Net Transfer capacity - Day Ahead (MW)**: iterates over official neighbour pairs and saves `saved_data/NTC_dayahead_df_{year}.csv` with mean and max capacity values.
-   - **Cross-border Flow (MW)**: queries day-ahead physical flows per interconnection and saves `saved_data/cross_border_{year}.csv`.
-   - **Load**: collects hourly load for each country and writes `saved_data/load_df_{year}.csv`.
-   - **Installed capacity**: fetches installed generation capacities (by technology columns) and writes `saved_data/capacity_df_{year}.csv`.
-   - **Cross-border flows before 2015 not included in the API**: downloads the 2011 legacy Excel files directly from the Transparency website. Set `save_as_csv = True` to auto-convert each download to CSV (`saved_data/before_2015/cross_border_schedule_2011_{CODE}.csv`).
-   - **Process the downloaded data...**: cleans the legacy CSVs and produces `saved_data/before_2015/processed/aggregated_physical_crossborder_flows_2011.csv`. It logs files it could not process and skips empty datasets.
-3. Inspect the console output: the notebook prints progress per country and notes any missing endpoints (for example, countries listed in `saved_data/before_2015/country_not_available.txt`). Adjust the country list or rerun specific cells as needed.
+   - **Net Transfer capacity - Day Ahead (MW)**: iterates over official neighbour pairs and stores year-specific CSV summaries with mean and maximum capacity values in the saved data folder.
+   - **Cross-border Flow (MW)**: queries day-ahead physical flows per interconnection and records the results as annual CSV exports under the saved data directory.
+   - **Load**: collects hourly load for each country and generates per-year CSV datasets that capture both time series values and peaks.
+   - **Installed capacity**: fetches installed generation capacities (by technology columns) and writes the figures into yearly CSV snapshots for each country.
+   - **Cross-border flows before 2015 not included in the API**: downloads the 2011 legacy Excel files directly from the Transparency website. Set `save_as_csv = True` to auto-convert each download to CSV files that follow the same naming pattern as the source spreadsheets.
+   - **Process the downloaded data...**: cleans the legacy CSVs, produces an aggregated dataset for the historic flows, and logs any inputs it could not process.
+3. Inspect the console output: the notebook prints progress per country and notes any missing endpoints (for example, countries listed in the legacy availability log). Adjust the country list or rerun specific cells as needed.
 
 ## Output overview
 
-- `saved_data/NTC_dayahead_df_{year}.csv`: Mean and max day-ahead net transfer capacity for every neighbour pair (MW).
-- `saved_data/cross_border_{year}.csv`: Summary of cross-border physical flows for the requested year (MW).
-- `saved_data/load_df_{year}.csv`: Hourly load aggregation per country with peak values across the year (MW).
-- `saved_data/capacity_df_{year}.csv`: Installed generation capacity per technology for each country (MW).
-- `saved_data/before_2015/cross_border_schedule_2011_{CODE}.csv`: Raw 2011 legacy cross-border schedules downloaded from the ENTSO-E archive.
-- `saved_data/before_2015/processed/aggregated_physical_crossborder_flows_2011.csv`: Cleaned and aggregated legacy flows from the processed CSVs.
-- `saved_data/before_2015/country_not_available.txt`: Comma-separated list of countries whose legacy files were missing or malformed.
+- A CSV per year capturing mean and max day-ahead net transfer capacity for every neighbour pair (MW).
+- A CSV per year summarising cross-border physical flows for the requested period (MW).
+- A CSV per year aggregating hourly load per country alongside peak values (MW).
+- A CSV per year listing installed generation capacity per technology for each country (MW).
+- Year-specific legacy downloads from the ENTSO-E archive containing raw 2011 cross-border schedules.
+- A processed legacy dataset that aggregates the cleaned cross-border flows from the historic CSVs.
+- A text log enumerating countries whose legacy files were missing or malformed.
 
 ## Tips and troubleshooting
 
